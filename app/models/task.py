@@ -3,7 +3,6 @@ from typing import List
 from sqlalchemy import func, DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-# from app.models import Users
 from base import Base
 
 

@@ -3,7 +3,6 @@ from typing import List
 from sqlalchemy import String, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-# from app.models import Tasks
 from base import Base
 
 

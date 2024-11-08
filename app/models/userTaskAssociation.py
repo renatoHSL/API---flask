@@ -7,6 +7,5 @@ from base import Base
 class UserTaskAssociation(Base):
     __tablename__ = "user_task_association"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
-    user_id = mapped_column(ForeignKey("users.id"))
-    task_id = mapped_column(ForeignKey("tasks.id"))
+    user_id = mapped_column(ForeignKey("users.id"), primary_key=True)
+    task_id = mapped_column(ForeignKey("tasks.id"), primary_key=True)
