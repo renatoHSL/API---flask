@@ -1,11 +1,7 @@
-from sqlalchemy import create_engine, ForeignKey
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
 from base import Base
-
-DATABASE_URL = "sqlite+pysqlite:///:memory:"
-
-engine = create_engine(DATABASE_URL, echo=True)
 
 
 class UserTaskAssociation(Base):

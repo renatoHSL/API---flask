@@ -3,10 +3,8 @@ from typing import List
 from sqlalchemy import String, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from userTaskAssociation import UserTaskAssociation
-from task import Tasks
+# from app.models import Tasks
 from base import Base
-from config import engine
 
 
 class Users(Base):
@@ -18,15 +16,4 @@ class Users(Base):
     password_hash: Mapped[str] = mapped_column(String(128))
     created_at: Mapped[DateTime] = mapped_column(index=True)
     updated_at: Mapped[DateTime] = mapped_column(index=True)
-    children: Mapped[List[Tasks]] = relationship(secondary=UserTaskAssociation, back_populates="parents")
-
-
-
-
-
-
-
-
-
-
-
+    tasks: Mapped[List["Tasks"]] = relationship("Tasks", secondary="user_task_association", back_populates="users")
