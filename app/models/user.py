@@ -1,9 +1,10 @@
 from typing import List
+from datetime import datetime
 
-from sqlalchemy import String, DateTime
+from sqlalchemy import String, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from base import Base
+from .base import Base
 
 
 class Users(Base):
@@ -13,6 +14,6 @@ class Users(Base):
     username: Mapped[str] = mapped_column(String(50), unique=True, index=True)
     email: Mapped[str] = mapped_column(String(100), unique=True, index=True)
     password_hash: Mapped[str] = mapped_column(String(128))
-    created_at: Mapped[DateTime] = mapped_column(index=True)
-    updated_at: Mapped[DateTime] = mapped_column(index=True)
-    tasks: Mapped[List["Tasks"]] = relationship("Tasks", secondary="user_task_association", back_populates="users")
+    created_at: Mapped[datetime] = mapped_column(index=True)
+    updated_at: Mapped[datetime] = mapped_column(onupdate=func.now(), index=True)
+    tasks: Mapped[List["Tasks"]] = relationship("Tasks", secondary="users_tasks_association", back_populates="users")
