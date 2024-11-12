@@ -1,5 +1,5 @@
 # Framework principal
-Flask==3.0.3  # ou FastAPI==0.68.2, dependendo do framework escolhido
+Flask==3.0.3
 
 # ORM e Migração
 SQLAlchemy==2.0.36
@@ -9,7 +9,7 @@ alembic==1.13.3
 python-dotenv==1.0.1
 
 # Validação de dados
-marshmallow==3.23.1  # ou use pydantic integrado no FastAPI
+marshmallow==3.23.1
 
 # Autenticação JWT
 PyJWT==2.9.0
