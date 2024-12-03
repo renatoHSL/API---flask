@@ -1,5 +1,5 @@
-from ..models.base import Base
-from ..models.config import engine
+from app.models.base import Base
+from app.db.config import engine
 
 
 def initialize_database():

@@ -1,8 +1,6 @@
-import pytest
-from app.models.config import Session
+from app.db.config import Session
 from datetime import datetime
 from app.models.users import Users
-from sqlalchemy import select
 
 
 def test_insert():

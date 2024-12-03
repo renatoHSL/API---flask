@@ -17,3 +17,9 @@ class Users(Base):
     created_at: Mapped[datetime] = mapped_column(insert_default=func.now(), index=True)
     updated_at: Mapped[datetime] = mapped_column(onupdate=func.now(), index=True)
     tasks: Mapped[List["Tasks"]] = relationship("Tasks", secondary="users_tasks_association", back_populates="users")
+
+    def __repr__(self) -> str:
+        return (
+            f"Users(id={self.id!r}, username={self.username!r}, email={self.email!r}, "
+            f"created_at={self.created_at!r}, updated_at={self.updated_at!r})"
+        )
