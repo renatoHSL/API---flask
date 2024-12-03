@@ -24,7 +24,6 @@ def create_app(test_config=None):
     def index():
         return "Hello, Flask!"
 
-    print('aqui database', app.config['DATABASE'])
     return app
 
 
