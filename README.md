@@ -145,3 +145,79 @@ Roadap:
 ---
 
 **Duração total estimada:** 20-24 dias (dedicação de 4-6 horas por dia).
+
+
+# Extras Desejáveis para o Projeto
+
+## 1. Funcionalidades Avançadas
+- [ ] **Autenticação e Autorização**
+  - Implementar autenticação com JWT para proteger rotas.
+  - Criar permissões específicas (ex.: apenas criadores podem excluir tarefas).
+  
+- [ ] **Filtros e Paginação**
+  - Adicionar filtros em rotas de listagem (ex.: `/tasks?status=done`).
+  - Implementar paginação para grandes volumes de dados (ex.: `/users?page=2&limit=10`).
+
+- [ ] **Rotas Relacionadas**
+  - Criar rotas para associar/desassociar usuários e tarefas.
+    - Ex.: `POST /tasks/{task_id}/users` para adicionar um usuário a uma tarefa.
+  - Adicionar uma rota para listar as tarefas de um usuário:
+    - Ex.: `GET /users/{user_id}/tasks`.
+
+## 2. Validação e Segurança
+- [ ] **Validação de Dados**
+  - Usar bibliotecas como `Marshmallow` ou `Pydantic` para validar inputs.
+  - Adicionar mensagens de erro claras para entradas inválidas.
+  
+- [ ] **Segurança Avançada**
+  - Implementar CORS para limitar acesso a domínios específicos.
+  - Adicionar limite de requisições por IP (Rate Limiting) para proteger contra abusos.
+
+- [ ] **Hash de Senhas**
+  - Usar bibliotecas como `bcrypt` para salvar senhas de forma segura.
+  - Garantir que o fluxo de autenticação lide corretamente com hashes.
+
+## 3. Experiência do Usuário e Recursos Úteis
+- [ ] **Busca Avançada**
+  - Adicionar capacidade de busca por texto nas tarefas (ex.: `/tasks?search=nome`).
+  
+- [ ] **Notificações**
+  - Enviar e-mails ou notificações em eventos importantes (ex.: quando uma tarefa for atribuída).
+  
+- [ ] **Logs e Auditoria**
+  - Registrar logs de ações (ex.: quem criou/deletou uma tarefa).
+  - Criar uma tabela de auditoria para rastrear alterações em dados.
+
+## 4. Documentação e Testes
+- [ ] **Documentação Automática**
+  - Usar `Flask-Swagger` ou `Flasgger` para gerar documentação automática dos endpoints.
+
+- [ ] **Testes Automatizados**
+  - Configurar testes unitários com `Pytest`.
+  - Testar rotas e cenários de erro (ex.: criação de usuário com dados incompletos).
+
+## 5. Deploy e Infraestrutura
+- [ ] **Deploy com Docker**
+  - Criar um `Dockerfile` para a API e configurar `docker-compose` para rodar junto com o banco de dados.
+  
+- [ ] **Configuração CI/CD**
+  - Configurar GitHub Actions para rodar testes e realizar deploy automático.
+
+## 6. Melhorias de Performance
+- [ ] **Cache**
+  - Implementar cache para rotas frequentes (ex.: listagem de tarefas).
+  
+- [ ] **Websockets**
+  - Usar Websockets para notificações em tempo real (ex.: atualização de status de tarefas).
+
+## 7. Internacionalização (Opcional)
+- [ ] **Suporte a Múltiplos Idiomas**
+  - Adicionar suporte para diferentes idiomas (ex.: mensagens de erro em inglês e português).
+
+## 8. Monitoramento e Observabilidade
+- [ ] **Monitoramento**
+  - Usar ferramentas como `Flask-Monitoring-Dashboard` para acompanhar desempenho e métricas.
+
+- [ ] **Health Checks**
+  - Adicionar uma rota simples para verificar o status do serviço (ex.: `/health`).
+
