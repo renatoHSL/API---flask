@@ -47,7 +47,7 @@ Roadap:
 ### **Dia 1-2: Planejamento e Estruturação da Arquitetura**
 
 - [X] Definir o objetivo principal da API e a entidade a ser gerenciada (ex.: usuários/tarefas ou produtos/pedidos).
-- [ ] Especificar rotas principais e endpoints (ex.: `/api/v1/users`, `/api/v1/tasks`).
+- [X] Especificar rotas principais e endpoints (ex.: `/api/v1/users`, `/api/v1/tasks`).
 - [X] Estruturar o projeto com diretórios organizados:
     - `/models` (modelos de dados)
     - `/routes` (definição das rotas)

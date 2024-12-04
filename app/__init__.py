@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+from app.routes import register_routes
 
 
 def create_app(test_config=None):
@@ -23,6 +24,8 @@ def create_app(test_config=None):
     @app.route('/')
     def index():
         return "Hello, Flask!"
+
+    register_routes(app)
 
     return app
 
