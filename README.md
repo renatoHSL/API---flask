@@ -53,7 +53,7 @@ Roadap:
     - `/routes` (definição das rotas)
     - `/services` (lógica de negócios)
     - `/config` (configurações sensíveis)
-- [ ] Configurar variáveis de ambiente (ex.: `env` para banco de dados e chaves secretas).
+- [X] Configurar variáveis de ambiente (ex.: `env` para banco de dados e chaves secretas).
 
 ### **Dia 3-4: Configuração do Banco de Dados e Modelagem de Dados**
 
