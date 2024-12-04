@@ -62,7 +62,7 @@ Roadap:
 - [X] Modelar as entidades principais:
     - **PostgreSQL**: Tabelas de `users` e `tasks` com relacionamento.
     - **MongoDB**: Coleções em MongoDB com `users` referenciando `tasks`.
-- [ ] Implementar as migrações de banco de dados usando **Alembic** (se PostgreSQL).
+- [ ] Implementar as migrações de banco de dados usando **Alembic**.
 
 ---
 
