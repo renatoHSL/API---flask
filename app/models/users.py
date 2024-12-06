@@ -11,9 +11,9 @@ class Users(Base):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    username: Mapped[str] = mapped_column(String(50), unique=True, index=True)
-    email: Mapped[str] = mapped_column(String(100), unique=True, index=True)
-    password_hash: Mapped[str] = mapped_column(String(128))
+    username: Mapped[str] = mapped_column(String(50), unique=True, index=True, nullable=False)
+    email: Mapped[str] = mapped_column(String(100), unique=True, index=True, nullable=False)
+    password_hash: Mapped[str] = mapped_column(String(128), nullable=False)
     created_at: Mapped[datetime] = mapped_column(insert_default=func.now(), index=True)
     updated_at: Mapped[datetime] = mapped_column(onupdate=func.now(), index=True)
     tasks: Mapped[List["Tasks"]] = relationship("Tasks", secondary="users_tasks_association", back_populates="users")

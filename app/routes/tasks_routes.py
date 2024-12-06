@@ -9,7 +9,7 @@ def get_tasks(tasks_id):
 
 
 @tasks_bp.route('/', methods=['GET'])
-def get_tasks():
+def get_task():
     return {'message': 'Lista de tasks'}
 
 

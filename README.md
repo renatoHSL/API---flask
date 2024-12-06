@@ -30,6 +30,7 @@ GET /users: Listar todos os usuários
 GET /users/{user_id}: Obter informações de um usuário específico
 PUT /users/{user_id}: Atualizar dados de um usuário
 DELETE /users/{user_id}: Excluir um usuário
+
 Tarefas:
 
 POST /tasks: Criar uma nova tarefa
@@ -38,7 +39,7 @@ GET /tasks/{task_id}: Obter detalhes de uma tarefa específica
 PUT /tasks/{task_id}: Atualizar uma tarefa
 DELETE /tasks/{task_id}: Excluir uma tarefa
 
-Roadap:
+Roadmap:
 
 # **Roadmap para Desenvolvimento da API RESTful**
 
@@ -62,7 +63,7 @@ Roadap:
 - [X] Modelar as entidades principais:
     - **PostgreSQL**: Tabelas de `users` e `tasks` com relacionamento.
     - **MongoDB**: Coleções em MongoDB com `users` referenciando `tasks`.
-- [ ] Implementar as migrações de banco de dados usando **Alembic**.
+- [X] Implementar as migrações de banco de dados usando **Alembic**.
 
 ---
 
