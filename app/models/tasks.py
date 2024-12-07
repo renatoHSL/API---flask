@@ -15,4 +15,5 @@ class Tasks(Base):
     description: Mapped[str] = mapped_column(String(128), nullable=False)
     status: Mapped[bool] = mapped_column(index=True)
     created_date: Mapped[datetime] = mapped_column(insert_default=func.now(), index=True)
+    updated_at: Mapped[datetime] = mapped_column(insert_default=func.now(), onupdate=func.now(), index=True)
     users: Mapped[List["Users"]] = relationship("Users", secondary="users_tasks_association", back_populates="tasks")

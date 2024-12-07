@@ -1,4 +1,5 @@
 from flask import Blueprint, request
+from app.db import database_instance
 
 from app.models import Users
 
@@ -7,8 +8,6 @@ users_bp = Blueprint('users', __name__, url_prefix='/api/v1/users')
 
 @users_bp.route('/', methods=['POST'])
 def create_user():
-    from app import database_instance
-
     data = request.get_json()
     username = data.get('username')
     email = data.get('email')
