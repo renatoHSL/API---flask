@@ -18,6 +18,9 @@ class Users(Base):
     updated_at: Mapped[datetime] = mapped_column(insert_default=func.now(), onupdate=func.now(), index=True)
     tasks: Mapped[List["Tasks"]] = relationship("Tasks", secondary="users_tasks_association", back_populates="users")
 
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
     def __repr__(self) -> str:
         return (
             f"Users(id={self.id!r}, username={self.username!r}, email={self.email!r}, "

@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from app.db import database_instance
+from flask import jsonify
 
 from app.models import Users
 
@@ -25,7 +26,15 @@ def create_user():
 
 @users_bp.route('/<int:user_id>', methods=['GET'])
 def get_user(user_id):
-    return {'message': 'Usuário encontrado'}
+    user = database_instance.session.get(Users, user_id)
+    user_db_id = user.id
+    if user_id == user_db_id:
+        return user.as_dict()
+
+
+# @users_bp.route('/<username>', methods=['GET'])
+# def get_user(username):
+#     return {'message': 'Usuário encontrado'}
 
 
 @users_bp.route('/', methods=['GET'])
