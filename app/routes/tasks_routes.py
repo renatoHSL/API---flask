@@ -1,3 +1,5 @@
+# TODO fazer as validacoes
+
 from flask import Blueprint, request, jsonify
 from app.db import database_instance
 from sqlalchemy import select, update, delete
@@ -21,22 +23,42 @@ def create_task():
 
 
 @tasks_bp.route('/', methods=['GET'])
-def get_task():
+def get_tasks():
     tasks = database_instance.session.scalars(select(Tasks)).all()
     task_dict = [task.as_dict() for task in tasks]
     return jsonify({'tasks': task_dict}), 200
 
 
-@tasks_bp.route('/<int:user_id>', methods=['GET'])
-def get_tasks(tasks_id):
-    return {'message': 'Task encontrada'}
+@tasks_bp.route('/id/<int:task_id>', methods=['GET'])
+def get_tasks_id(task_id):
+    task = database_instance.session.get(Tasks, task_id)
+    return jsonify(task.as_dict()), 200
 
 
-@tasks_bp.route('/', methods=['DELETE'])
-def delete_task():
-    return {'message': 'Task deletada!'}
-
-
-@tasks_bp.route('/', methods=['PUT'])
+@tasks_bp.route('/id/<int:task_id>', methods=['PUT'])
 def update_task():
-    return {'message': 'Task atualizada!'}
+    pass
+
+
+@tasks_bp.route('/id/<int:task_id>', methods=['DELETE'])
+def delete_task():
+    pass
+
+
+@tasks_bp.route('/user_id/<int:user_id>', methods=['GET'])
+def get_user_tasks(user_id):
+    tasks = database_instance.session.scalars(
+        select(Tasks).where(Tasks.user_id == user_id)
+    ).all()
+    task_dict = [task.as_dict() for task in tasks]
+    return jsonify({'tasks': task_dict}), 200
+
+
+@tasks_bp.route('/user_id/<int:user_id>', methods=['PUT'])
+def get_user_tasks(user_id):
+    pass
+
+
+@tasks_bp.route('/user_id/<int:user_id>', methods=['DELETE'])
+def get_user_tasks(user_id):
+    pass

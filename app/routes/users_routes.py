@@ -1,3 +1,5 @@
+# TODO fazer as validacoes
+
 from flask import Blueprint, request, jsonify
 from app.db import database_instance
 from sqlalchemy import select, update, delete
