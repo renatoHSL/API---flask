@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.db import database_instance
-from sqlalchemy import select, update
+from sqlalchemy import select, update, delete
 
 from app.models import Users
 
@@ -57,6 +57,14 @@ def update_user_id(user_id):
     # return jsonify(user.as_dict()), 200
 
 
+@users_bp.route('/id/<int:user_id>', methods=['DELETE'])
+def delete_user_id(user_id):
+    stmt = delete(Users).where(Users.id == user_id)
+    database_instance.session.execute(stmt)
+    database_instance.session.commit()
+    return {'message': 'usuário deletado'}
+
+
 @users_bp.route('/username/<username>', methods=['GET'])
 def get_user_name(username):
     statement = select(Users).filter_by(username=username)
@@ -67,4 +75,23 @@ def get_user_name(username):
 
 @users_bp.route('/username/<username>', methods=['PUT'])
 def update_username(username):
-    pass
+    data = request.get_json()
+    username_update = data.get('username')
+    email = data.get('email')
+    password = data.get('password_hash')
+    statement = update(Users).where(Users.username == username).values(
+        email=email,
+        username=username_update,
+        password_hash=password
+    )
+    database_instance.session.execute(statement)
+    database_instance.session.commit()
+    return {'message': 'usuário atualizado'}
+
+
+@users_bp.route('/username/<username>', methods=['DELETE'])
+def delete_username(username):
+    stmt = delete(Users).where(Users.username == username)
+    database_instance.session.execute(stmt)
+    database_instance.session.commit()
+    return {'message': 'usuário deletado'}
