@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.db import database_instance
-from sqlalchemy import select
+from sqlalchemy import select, update
 
 from app.models import Users
 
@@ -39,8 +39,22 @@ def get_user_id(user_id):
 
 @users_bp.route('/id/<int:user_id>', methods=['PUT'])
 def update_user_id(user_id):
-    user = database_instance.session.get(Users, user_id)
-    return jsonify(user.as_dict()), 200
+    data = request.get_json()
+    username = data.get('username')
+    email = data.get('email')
+    password = data.get('password_hash')
+    statement = update(Users).where(Users.id == user_id).values(
+        email=email,
+        username=username,
+        password_hash=password
+    )
+    database_instance.session.execute(statement)
+    database_instance.session.commit()
+    return {'message': 'usuário atualizado'}
+
+    # if content is None:
+    #     return '{ "Error" : "json data required" }', 400
+    # return jsonify(user.as_dict()), 200
 
 
 @users_bp.route('/username/<username>', methods=['GET'])
