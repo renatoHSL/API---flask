@@ -71,10 +71,10 @@ Roadmap:
 
 ### **Dia 5-8: Desenvolvimento dos Endpoints CRUD**
 
-- [ ] Implementar rotas para operações básicas:
+- [X] Implementar rotas para operações básicas:
     - **Criar**: POST `/api/v1/users` ou `/api/v1/tasks`.
     - **Ler**: GET `/api/v1/users` (lista) e `/api/v1/users/{id}` (detalhe).
-    - **Atualizar**: PUT `/api/v1/users/{id}`.
+    - **Atualizar**: PATCH `/api/v1/users/{id}`.
     - **Deletar**: DELETE `/api/v1/users/{id}`.
 - [ ] Implementar validação de dados (com Pydantic ou Marshmallow).
 - [ ] Adicionar tratamento de erros (ex.: dados inválidos ou recurso não encontrado).
