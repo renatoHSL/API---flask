@@ -4,7 +4,7 @@ from flask import Blueprint, request, jsonify
 from app.db import database_instance
 from sqlalchemy import select, update, delete
 
-from app.models import Users, Tasks
+from app.models import Tasks
 
 tasks_bp = Blueprint('tasks', __name__, url_prefix='/api/v1/tasks')
 
@@ -35,14 +35,36 @@ def get_tasks_id(task_id):
     return jsonify(task.as_dict()), 200
 
 
-@tasks_bp.route('/id/<int:task_id>', methods=['PUT'])
-def update_task():
-    pass
+@tasks_bp.route('/id/<int:task_id>', methods=['PATCH'])
+def update_task_by_id(task_id):
+    data = request.get_json()
+    title = data.get('title')
+    description = data.get('description')
+    user_id = data.get('user_id')
+
+    updated_values = {}
+
+    if title is not None:
+        updated_values['title'] = title
+
+    if description is not None:
+        updated_values['description'] = description
+
+    if user_id is not None:
+        updated_values['user_id'] = user_id
+
+    statement = update(Tasks).where(Tasks.id == task_id).values(**updated_values)
+    database_instance.session.execute(statement)
+    database_instance.session.commit()
+    return {'message': 'tasks atualizada'}
 
 
 @tasks_bp.route('/id/<int:task_id>', methods=['DELETE'])
-def delete_task():
-    pass
+def delete_task_by_id(task_id):
+    stmt = delete(Tasks).where(Tasks.id == task_id)
+    database_instance.session.execute(stmt)
+    database_instance.session.commit()
+    return {'message': 'task deletada'}
 
 
 @tasks_bp.route('/user_id/<int:user_id>', methods=['GET'])
@@ -54,11 +76,33 @@ def get_user_tasks(user_id):
     return jsonify({'tasks': task_dict}), 200
 
 
-@tasks_bp.route('/user_id/<int:user_id>', methods=['PUT'])
-def get_user_tasks(user_id):
-    pass
+@tasks_bp.route('/user_id/<int:user_id>', methods=['PATCH'])
+def update_tasks_by_user_id(user_id):
+    data = request.get_json()
+    title = data.get('title')
+    description = data.get('description')
+    user_id_updated = data.get('user_id')
+
+    updated_values = {}
+
+    if title is not None:
+        updated_values['title'] = title
+
+    if description is not None:
+        updated_values['description'] = description
+
+    if user_id_updated is not None:
+        updated_values['user_id'] = user_id_updated
+
+    statement = update(Tasks).where(Tasks.user_id == user_id).values(**updated_values)
+    database_instance.session.execute(statement)
+    database_instance.session.commit()
+    return {'message': 'tasks atualizada'}
 
 
 @tasks_bp.route('/user_id/<int:user_id>', methods=['DELETE'])
-def get_user_tasks(user_id):
-    pass
+def delete_tasks_by_user_id(user_id):
+    stmt = delete(Tasks).where(Tasks.user_id == user_id)
+    database_instance.session.execute(stmt)
+    database_instance.session.commit()
+    return {'message': 'task deletada'}

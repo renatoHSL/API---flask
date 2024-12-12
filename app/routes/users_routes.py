@@ -39,17 +39,25 @@ def get_user_id(user_id):
     return jsonify(user.as_dict()), 200
 
 
-@users_bp.route('/id/<int:user_id>', methods=['PUT'])
+@users_bp.route('/id/<int:user_id>', methods=['PATCH'])
 def update_user_id(user_id):
     data = request.get_json()
     username = data.get('username')
     email = data.get('email')
     password = data.get('password_hash')
-    statement = update(Users).where(Users.id == user_id).values(
-        email=email,
-        username=username,
-        password_hash=password
-    )
+
+    updated_values = {}
+
+    if username is not None:
+        updated_values['username'] = username
+
+    if email is not None:
+        updated_values['email'] = email
+
+    if password is not None:
+        updated_values['password_hash'] = password
+
+    statement = update(Users).where(Users.id == user_id).values(**updated_values)
     database_instance.session.execute(statement)
     database_instance.session.commit()
     return {'message': 'usuário atualizado'}
@@ -75,17 +83,25 @@ def get_user_name(username):
     return jsonify(user_dict), 200
 
 
-@users_bp.route('/username/<username>', methods=['PUT'])
+@users_bp.route('/username/<username>', methods=['PATCH'])
 def update_username(username):
     data = request.get_json()
     username_update = data.get('username')
     email = data.get('email')
     password = data.get('password_hash')
-    statement = update(Users).where(Users.username == username).values(
-        email=email,
-        username=username_update,
-        password_hash=password
-    )
+
+    updated_values = {}
+
+    if username_update is not None:
+        updated_values['username'] = username_update
+
+    if email is not None:
+        updated_values['email'] = email
+
+    if password is not None:
+        updated_values['password_hash'] = password
+
+    statement = update(Users).where(Users.username == username).values(**updated_values)
     database_instance.session.execute(statement)
     database_instance.session.commit()
     return {'message': 'usuário atualizado'}
