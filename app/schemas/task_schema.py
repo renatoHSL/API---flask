@@ -1,12 +1,12 @@
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, validate
 
 
 class TaskSchema(Schema):
-    id = fields.Int()
-    title = fields.Str()
-    description = fields.Str()
+    id = fields.Int(dump_only=True)
+    title = fields.Str(validate=[validate.Length(min=3, max=20)], required=True)
+    description = fields.Str(validate=[validate.Length(min=5, max=45)], required=True)
     status = fields.Boolean()
-    created_date = fields.DateTime()
-    updated_at = fields.DateTime()
+    created_date = fields.DateTime(dump_only=True)
+    updated_at = fields.DateTime(dump_only=True)
 
     user_id = fields.Int()
