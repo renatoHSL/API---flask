@@ -16,7 +16,7 @@ class Tasks(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     title: Mapped[str] = mapped_column(String(128), nullable=False, index=True)
     description: Mapped[str] = mapped_column(String(128), nullable=False)
-    status: Mapped[bool] = mapped_column(Boolean, default=False, index=True)
+    is_done: Mapped[bool] = mapped_column(Boolean, default=False, index=True)
     created_date: Mapped[datetime] = mapped_column(DateTime, insert_default=func.now(), index=True)
     updated_at: Mapped[datetime] = mapped_column(DateTime, insert_default=func.now(), onupdate=func.now(), index=True)
 
