@@ -5,12 +5,13 @@ from sqlalchemy import String, func, DateTime, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
+from app.utils.mixins import AsDictMixin
 
 
 # from app.models import Tasks
 
 
-class Users(Base):
+class Users(Base, AsDictMixin):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)

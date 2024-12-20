@@ -76,7 +76,7 @@ Roadmap:
     - **Ler**: GET `/api/v1/users` (lista) e `/api/v1/users/{id}` (detalhe).
     - **Atualizar**: PATCH `/api/v1/users/{id}`.
     - **Deletar**: DELETE `/api/v1/users/{id}`.
-- [ ] Implementar validação de dados (com Pydantic ou Marshmallow).
+- [X] Implementar validação de dados (com Pydantic ou Marshmallow).
 - [ ] Adicionar tratamento de erros (ex.: dados inválidos ou recurso não encontrado).
 
 ### **Dia 9-10: Validação e Tratamento de Erros**
