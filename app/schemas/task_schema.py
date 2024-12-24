@@ -8,9 +8,20 @@ from marshmallow import Schema, fields, validate, post_dump
 
 class TaskSchema(Schema):
     id = fields.Int(dump_only=True)
-    title = fields.Str(validate=[validate.Length(min=3, max=20)], required=True)
-    description = fields.Str(validate=[validate.Length(min=5, max=45)], required=True)
-    done = fields.Boolean(attribute="is_done", missing=False)
+    title = fields.Str(
+        validate=[
+            validate.Length(min=3, max=20, error="O título deve ter entre 3 e 20 caracteres.")
+        ],
+        required=True)
+    description = fields.Str(
+        validate=[
+            validate.Length(min=5, max=45, error="A descrição deve ter entre 5 e 45 caracteres.")
+        ],
+        required=True)
+    done = fields.Boolean(
+        attribute="is_done",
+        missing=False  # Define um valor padrão
+    )
 
     # user_id = fields.Int(fields.Nested(UserSchema(exclude=("joined_on", "password")), dump_only=True))
 

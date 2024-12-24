@@ -1,4 +1,3 @@
-from typing import List
 from datetime import datetime
 
 from sqlalchemy import func, String, ForeignKey, Boolean, Integer, DateTime
@@ -22,9 +21,6 @@ class Tasks(Base, AsDictMixin):
     updated_at: Mapped[datetime] = mapped_column(DateTime, insert_default=func.now(), onupdate=func.now(), index=True)
 
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
-
-    def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     # TODO Possivel importação circular
     # users: Mapped[List["Users"]] = relationship("Users", secondary="users_tasks_association", back_populates="tasks")
