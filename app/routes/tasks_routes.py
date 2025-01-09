@@ -3,15 +3,23 @@
 from flask import Blueprint, request, jsonify
 from app.db import database_instance
 from sqlalchemy import select, update, delete
+from app.schemas.task_schema import TaskSchema
+from marshmallow import ValidationError
 
 from app.models import Tasks
 
 tasks_bp = Blueprint('tasks', __name__, url_prefix='/api/v1/tasks')
 
+task_schema = TaskSchema()
+
 
 @tasks_bp.route('/', methods=['POST'])
 def create_task():
-    data = request.get_json()
+    json_input = request.get_json()
+    try:
+        data = task_schema.load(json_input)
+    except ValidationError as err:
+        return {"errors": err.messages}, 422
     title = data.get('title')
     description = data.get('description')
     user_id = data.get('user_id')

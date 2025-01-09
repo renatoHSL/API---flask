@@ -77,7 +77,7 @@ Roadmap:
     - **Atualizar**: PATCH `/api/v1/users/{id}`.
     - **Deletar**: DELETE `/api/v1/users/{id}`.
 - [X] Implementar validação de dados (com Pydantic ou Marshmallow).
-- [ ] Adicionar tratamento de erros (ex.: dados inválidos ou recurso não encontrado).
+- [X] Adicionar tratamento de erros (ex.: dados inválidos ou recurso não encontrado).
 
 ### **Dia 9-10: Validação e Tratamento de Erros**
 

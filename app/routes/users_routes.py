@@ -3,15 +3,23 @@
 from flask import Blueprint, request, jsonify
 from app.db import database_instance
 from sqlalchemy import select, update, delete
+from app.schemas.user_schema import UserSchema
+from marshmallow import ValidationError
 
 from app.models import Users
 
 users_bp = Blueprint('users', __name__, url_prefix='/api/v1/users')
 
+user_schema = UserSchema()
+
 
 @users_bp.route('/', methods=['POST'])
 def create_user():
-    data = request.get_json()
+    json_input = request.get_json()
+    try:
+        data = user_schema.load(json_input)
+    except ValidationError as err:
+        return {"errors": err.messages}, 422
     username = data.get('username')
     email = data.get('email')
     password = data.get('password_hash')
