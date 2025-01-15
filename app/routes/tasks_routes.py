@@ -33,6 +33,8 @@ def create_task():
 @tasks_bp.route('/', methods=['GET'])
 def get_tasks():
     tasks = database_instance.session.scalars(select(Tasks)).all()
+    if not tasks:
+        return {"error": "No tasks on the database"}, 404
     task_dict = [task.as_dict() for task in tasks]
     return jsonify({'tasks': task_dict}), 200
 
@@ -40,12 +42,18 @@ def get_tasks():
 @tasks_bp.route('/id/<int:task_id>', methods=['GET'])
 def get_tasks_id(task_id):
     task = database_instance.session.get(Tasks, task_id)
+    if not task:
+        return {"error": "Task not found"}, 404
     return jsonify(task.as_dict()), 200
 
 
 @tasks_bp.route('/id/<int:task_id>', methods=['PATCH'])
 def update_task_by_id(task_id):
-    data = request.get_json()
+    json_input = request.get_json()
+    try:
+        data = task_schema.load(json_input)
+    except ValidationError as err:
+        return {"errors": err.messages}, 422
     title = data.get('title')
     description = data.get('description')
     user_id = data.get('user_id')
@@ -69,6 +77,9 @@ def update_task_by_id(task_id):
 
 @tasks_bp.route('/id/<int:task_id>', methods=['DELETE'])
 def delete_task_by_id(task_id):
+    task = database_instance.session.get(Tasks, task_id)
+    if not task:
+        return {"error": "Task not found"}, 404
     stmt = delete(Tasks).where(Tasks.id == task_id)
     database_instance.session.execute(stmt)
     database_instance.session.commit()
@@ -80,13 +91,19 @@ def get_user_tasks(user_id):
     tasks = database_instance.session.scalars(
         select(Tasks).where(Tasks.user_id == user_id)
     ).all()
+    if not tasks:
+        return {"error": "Task not found"}, 404
     task_dict = [task.as_dict() for task in tasks]
     return jsonify({'tasks': task_dict}), 200
 
 
 @tasks_bp.route('/user_id/<int:user_id>', methods=['PATCH'])
 def update_tasks_by_user_id(user_id):
-    data = request.get_json()
+    json_input = request.get_json()
+    try:
+        data = task_schema.load(json_input)
+    except ValidationError as err:
+        return {"errors": err.messages}, 422
     title = data.get('title')
     description = data.get('description')
     user_id_updated = data.get('user_id')
@@ -105,12 +122,14 @@ def update_tasks_by_user_id(user_id):
     statement = update(Tasks).where(Tasks.user_id == user_id).values(**updated_values)
     database_instance.session.execute(statement)
     database_instance.session.commit()
-    return {'message': 'tasks atualizada'}
+    return {'message': 'Task atualizada'}
 
 
 @tasks_bp.route('/user_id/<int:user_id>', methods=['DELETE'])
 def delete_tasks_by_user_id(user_id):
     stmt = delete(Tasks).where(Tasks.user_id == user_id)
-    database_instance.session.execute(stmt)
+    result = database_instance.session.execute(stmt)
     database_instance.session.commit()
+    if result.rowcount == 0:
+        return {"error": "Task not found"}, 404
     return {'message': 'task deletada'}

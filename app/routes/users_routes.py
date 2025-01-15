@@ -37,6 +37,8 @@ def create_user():
 @users_bp.route('/', methods=['GET'])
 def get_users():
     users = database_instance.session.scalars(select(Users)).all()
+    if not users:
+        return {"error": "No user on the database"}, 404
     user_dict = [user.as_dict() for user in users]
     return jsonify({'users': user_dict}), 200
 
@@ -44,12 +46,18 @@ def get_users():
 @users_bp.route('/id/<int:user_id>', methods=['GET'])
 def get_user_id(user_id):
     user = database_instance.session.get(Users, user_id)
+    if not user:
+        return {"error": "User not found"}, 404
     return jsonify(user.as_dict()), 200
 
 
 @users_bp.route('/id/<int:user_id>', methods=['PATCH'])
 def update_user_id(user_id):
-    data = request.get_json()
+    json_input = request.get_json()
+    try:
+        data = user_schema.load(json_input)
+    except ValidationError as err:
+        return {"errors": err.messages}, 422
     username = data.get('username')
     email = data.get('email')
     password = data.get('password_hash')
@@ -77,7 +85,12 @@ def update_user_id(user_id):
 
 @users_bp.route('/id/<int:user_id>', methods=['DELETE'])
 def delete_user_id(user_id):
+    # è possivel verificando a quantidade de rows afetadas também com .rowcount
+    user = database_instance.session.get(Users, user_id)
+    if not user:
+        return {"error": "User not found"}, 404
     stmt = delete(Users).where(Users.id == user_id)
+    print("print", stmt)
     database_instance.session.execute(stmt)
     database_instance.session.commit()
     return {'message': 'usuário deletado'}
@@ -86,14 +99,20 @@ def delete_user_id(user_id):
 @users_bp.route('/username/<username>', methods=['GET'])
 def get_user_name(username):
     statement = select(Users).filter_by(username=username)
-    user_obj = database_instance.session.scalars(statement).all()
+    user_obj = database_instance.session.scalars(statement).first()
+    if not user_obj:
+        return {"error": "User not found"}, 404
     user_dict = [user.as_dict() for user in user_obj]
     return jsonify(user_dict), 200
 
 
 @users_bp.route('/username/<username>', methods=['PATCH'])
 def update_username(username):
-    data = request.get_json()
+    json_input = request.get_json()
+    try:
+        data = user_schema.load(json_input)
+    except ValidationError as err:
+        return {"errors": err.messages}, 422
     username_update = data.get('username')
     email = data.get('email')
     password = data.get('password_hash')
@@ -118,6 +137,9 @@ def update_username(username):
 @users_bp.route('/username/<username>', methods=['DELETE'])
 def delete_username(username):
     stmt = delete(Users).where(Users.username == username)
-    database_instance.session.execute(stmt)
+    result = database_instance.session.execute(stmt)
     database_instance.session.commit()
+
+    if result.rowcount == 0:
+        return {"error": "User not found"}, 404
     return {'message': 'usuário deletado'}
