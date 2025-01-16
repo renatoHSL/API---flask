@@ -43,12 +43,17 @@
 
 ---
 
-### **3. Validação, Tratamento de Erros e Segurança**
+### **3. Login, Validação, Tratamento de Erros e Segurança**
 
 - [x] Adicionar tratamento de erros para casos comuns:
     - **400**: Dados inválidos.
     - **404**: Recurso não encontrado.
     - **500**: Erro interno.
+- [ ] Adicionar um fluxo de login para autenticação do usuário:
+    - Criar um endpoint `POST /login` para autenticar o usuário.
+    - Validar as credenciais (e-mail e senha) contra o banco de dados.
+    - Retornar um token JWT se as credenciais forem válidas.
+    - Retornar erro **401 Unauthorized** para credenciais inválidas.
 - [ ] Implementar autenticação básica com JWT:
     - Gerar tokens JWT para autenticação.
     - Proteger rotas que exigem autenticação.

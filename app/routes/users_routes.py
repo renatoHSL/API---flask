@@ -1,4 +1,5 @@
 # TODO fazer as validacoes
+# Dá pra mudar pra service várias partes da rota
 
 from flask import Blueprint, request, jsonify
 from app.db import database_instance
@@ -23,7 +24,6 @@ def create_user():
     username = data.get('username')
     email = data.get('email')
     password = data.get('password_hash')
-    print(type(password))
     if not username or not email or not password:
         return {"error": "username or email or password is required"}
 
