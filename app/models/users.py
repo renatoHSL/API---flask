@@ -29,6 +29,7 @@ class Users(Base, AsDictMixin):
 
     def __repr__(self) -> str:
         return (
-            f"Users(id={self.id!r}, username={self.username!r}, email={self.email!r}, "
+            # TODO verificar o uso do !r
+            f"Users(password={self.password_hash!r}, id={self.id!r}, username={self.username!r}, email={self.email!r}, "
             f"created_at={self.created_at!r}, updated_at={self.updated_at!r})"
         )

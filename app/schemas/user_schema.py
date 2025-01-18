@@ -27,7 +27,7 @@ class UserSchema(Schema):
         attribute="password_hash",
         required=True,
         validate=[validate.Length(min=6, max=36)],
-        load_only=True
+        # load_only=True
     )
 
     @pre_load
