@@ -49,15 +49,12 @@
     - **400**: Dados inválidos.
     - **404**: Recurso não encontrado.
     - **500**: Erro interno.
-- [ ] Adicionar um fluxo de login para autenticação do usuário:
+- [X] Adicionar um fluxo de login para autenticação do usuário:
     - Criar um endpoint `POST /login` para autenticar o usuário.
     - Validar as credenciais (e-mail e senha) contra o banco de dados.
+- [X] Implementar autenticação básica com JWT:
     - Retornar um token JWT se as credenciais forem válidas.
-    - Retornar erro **401 Unauthorized** para credenciais inválidas.
-- [ ] Implementar autenticação básica com JWT:
     - Gerar tokens JWT para autenticação.
-    - Proteger rotas que exigem autenticação.
-- [ ] Garantir a segurança das senhas com bcrypt.
 
 ---
 
@@ -83,23 +80,3 @@
 - [ ] Criar um `Dockerfile` para containerizar a aplicação.
 - [ ] Configurar `docker-compose.yml` para rodar API e banco de dados localmente.
 - [ ] Usar `.dockerignore` para evitar envio de arquivos desnecessários.
-
----
-
-## **Extras Desejáveis**
-
-### **Funcionalidades Avançadas**
-
-- [ ] Implementar filtros e paginação para grandes volumes de dados.
-- [ ] Adicionar uma rota para listar tarefas associadas a um usuário:
-    - `GET /users/{user_id}/tasks`.
-
-### **Experiência do Usuário**
-
-- [ ] Implementar busca por texto nas tarefas (ex.: `/tasks?search=titulo`).
-
-### **Melhorias de Performance**
-
-- [ ] Adicionar suporte a cache em rotas frequentes (ex.: listagem de tarefas).
-
----

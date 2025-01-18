@@ -40,14 +40,9 @@ def auth():
 
     print(user_obj)
 
-    key = "secret"
-    encoded = jwt.encode({"some": "payload"}, key, algorithm="HS256")
-    # jwt.decode(encoded, key, algorithms="HS256")
-
     payload = {
         "user_id": user_obj.id,
         "username": user_obj.username,
-        "role": "admin" if user_obj.is_admin else "user",
         "exp": datetime.utcnow() + timedelta(hours=1)
     }
 
