@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from flasgger import Swagger
 from app.db.config import DATABASE_URL
 from app.routes import register_routes
 from app.db import initialize_database, database_instance
@@ -13,6 +14,18 @@ def create_app(test_config=None):
 
     if test_config is not None:
         app.config.from_mapping(test_config)
+
+    swagger = Swagger(app, template={
+        "swagger": "2.0",
+        "info": {
+            "title": "API Flask com Swagger",
+            "description": "Documentação interativa da API usando Flasgger",
+            "version": "1.0.0"
+        },
+        "host": "localhost:5000",
+        "basePath": "/",
+        "schemes": ["http"],
+    })
 
     try:
         os.makedirs(app.instance_path)

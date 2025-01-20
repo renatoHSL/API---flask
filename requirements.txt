@@ -17,3 +17,6 @@ PyJWT==2.9.0
 # Testes
 pytest==8.3.3
 requests==2.32.3
+
+# API Documentação
+flasgger==0.9.7.1

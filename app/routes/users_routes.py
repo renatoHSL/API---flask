@@ -16,6 +16,41 @@ user_schema = UserSchema()
 
 @users_bp.route('/', methods=['POST'])
 def create_user():
+    """
+    Cria um novo usuário
+    ---
+    tags:
+      - Users
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+                example: "joao"
+              email:
+                type: string
+                example: "joao@email.com"
+              password_hash:
+                type: string
+                example: "senha123"
+    responses:
+      200:
+        description: Usuário criado com sucesso
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Usuário criado!"
+      422:
+        description: Dados inválidos
+    """
     json_input = request.get_json()
     try:
         data = user_schema.load(json_input)
@@ -36,6 +71,33 @@ def create_user():
 
 @users_bp.route('/', methods=['GET'])
 def get_users():
+    """
+    Lista todos os usuários
+    ---
+    tags:
+      - Users
+    responses:
+      200:
+        description: Lista de usuários retornada com sucesso
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  username:
+                    type: string
+                    example: "joao"
+                  email:
+                    type: string
+                    example: "joao@email.com"
+      404:
+        description: Nenhum usuário encontrado
+    """
     users = database_instance.session.scalars(select(Users)).all()
     if not users:
         return {"error": "No user on the database"}, 404
@@ -45,6 +107,38 @@ def get_users():
 
 @users_bp.route('/id/<int:user_id>', methods=['GET'])
 def get_user_id(user_id):
+    """
+    Retorna informações de um usuário pelo ID
+    ---
+    tags:
+      - Users
+    parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: ID do usuário
+    responses:
+      200:
+        description: Usuário encontrado com sucesso
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                username:
+                  type: string
+                  example: "joao"
+                email:
+                  type: string
+                  example: "joao@email.com"
+      404:
+        description: Usuário não encontrado
+    """
     user = database_instance.session.get(Users, user_id)
     if not user:
         return {"error": "User not found"}, 404
@@ -53,6 +147,48 @@ def get_user_id(user_id):
 
 @users_bp.route('/id/<int:user_id>', methods=['PATCH'])
 def update_user_id(user_id):
+    """
+    Atualiza informações de um usuário pelo ID
+    ---
+    tags:
+      - Users
+    parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: ID do usuário
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+                example: "joao atualizado"
+              email:
+                type: string
+                example: "joao_atualizado@email.com"
+              password_hash:
+                type: string
+                example: "nova_senha123"
+    responses:
+      200:
+        description: Usuário atualizado com sucesso
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "usuário atualizado"
+      422:
+        description: Dados inválidos
+    """
     json_input = request.get_json()
     try:
         data = user_schema.load(json_input)
@@ -78,68 +214,39 @@ def update_user_id(user_id):
     database_instance.session.commit()
     return {'message': 'usuário atualizado'}
 
-    # if content is None:
-    #     return '{ "Error" : "json data required" }', 400
-    # return jsonify(user.as_dict()), 200
-
 
 @users_bp.route('/id/<int:user_id>', methods=['DELETE'])
 def delete_user_id(user_id):
-    # è possivel verificando a quantidade de rows afetadas também com .rowcount
+    """
+    Deleta um usuário pelo ID
+    ---
+    tags:
+      - Users
+    parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: ID do usuário
+    responses:
+      200:
+        description: Usuário deletado com sucesso
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "usuário deletado"
+      404:
+        description: Usuário não encontrado
+    """
     user = database_instance.session.get(Users, user_id)
     if not user:
         return {"error": "User not found"}, 404
     stmt = delete(Users).where(Users.id == user_id)
-    print("print", stmt)
     database_instance.session.execute(stmt)
     database_instance.session.commit()
-    return {'message': 'usuário deletado'}
-
-
-@users_bp.route('/username/<username>', methods=['GET'])
-def get_user_name(username):
-    statement = select(Users).filter_by(username=username)
-    user_obj = database_instance.session.scalars(statement).first()
-    if not user_obj:
-        return {"error": "User not found"}, 404
-    user_dict = [user.as_dict() for user in user_obj]
-    return jsonify(user_dict), 200
-
-
-@users_bp.route('/username/<username>', methods=['PATCH'])
-def update_username(username):
-    json_input = request.get_json()
-    try:
-        data = user_schema.load(json_input)
-    except ValidationError as err:
-        return {"errors": err.messages}, 422
-    username_update = data.get('username')
-    email = data.get('email')
-    password = data.get('password_hash')
-
-    updated_values = {}
-
-    if username_update is not None:
-        updated_values['username'] = username_update
-
-    if email is not None:
-        updated_values['email'] = email
-
-    if password is not None:
-        updated_values['password_hash'] = password
-
-    statement = update(Users).where(Users.username == username).values(**updated_values)
-    database_instance.session.execute(statement)
-    database_instance.session.commit()
-    return {'message': 'usuário atualizado'}
-
-
-@users_bp.route('/username/<username>', methods=['DELETE'])
-def delete_username(username):
-    stmt = delete(Users).where(Users.username == username)
-    result = database_instance.session.execute(stmt)
-    database_instance.session.commit()
-
-    if result.rowcount == 0:
-        return {"error": "User not found"}, 404
     return {'message': 'usuário deletado'}

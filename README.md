@@ -60,8 +60,8 @@
 
 ### **4. Documentação da API**
 
-- [ ] Adicionar documentação automática usando Swagger ou Flask-Swagger.
-- [ ] Garantir descrições claras e exemplos de entradas e saídas para cada endpoint.
+- [X] Adicionar documentação automática usando Flasgger.
+- [X] Garantir descrições claras e exemplos de entradas e saídas para cada endpoint.
 
 ---
 
