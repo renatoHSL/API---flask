@@ -6,6 +6,7 @@ from app.db import database_instance
 from sqlalchemy import select, update, delete
 from app.schemas.user_schema import UserSchema
 from marshmallow import ValidationError
+from sqlalchemy.exc import IntegrityError
 
 from app.models import Users
 
@@ -54,8 +55,10 @@ def create_user():
     json_input = request.get_json()
     try:
         data = user_schema.load(json_input)
+        print("EM ROUTES Dados validados:", data)
     except ValidationError as err:
-        return {"errors": err.messages}, 422
+        print("Erro de validação:", err.messages)
+        return {"EM ROUTES errors": err.messages}, 422
     username = data.get('username')
     email = data.get('email')
     password = data.get('password_hash')
@@ -63,8 +66,13 @@ def create_user():
         return {"error": "username or email or password is required"}
 
     user = Users(username=username, email=email, password_hash=password)
-    database_instance.session.add(user)
-    database_instance.session.commit()
+    print("DATABASE INSTANCE:", database_instance)
+    try:
+        database_instance.session.add(user)
+        database_instance.session.commit()
+    except IntegrityError:
+        database_instance.session.rollback()  # Reverte a transação
+        return {"error": "User already exists."}, 409
 
     return jsonify({'message': 'Usuário criado!'}), 200
 
