@@ -1,11 +1,11 @@
 from flask import Flask
-from app.routes.users_routes import create_user, get_users
+from app.routes.users_routes import create_user, get_users, get_user_id, update_user_id, delete_user_id
 from app.db import database_instance
 from app.models import Base, Users
 import unittest
 
 
-class TestCreateUserIntegration(unittest.TestCase):
+class TestUserIntegration(unittest.TestCase):
     def setUp(self):
         self.app = Flask(__name__)
         self.app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
@@ -38,6 +38,53 @@ class TestCreateUserIntegration(unittest.TestCase):
 
             self.assertEqual(response[0].json["users"][0]["username"], "joao")
             self.assertEqual(response[0].json["users"][1]["username"], "maria")
+
+    def test_get_user_id(self):
+        with self.app.app_context():
+            user = Users(id=1, username="joao", email="joao@email.com", password_hash="senha123")
+            print(user)
+            database_instance.session.add(user)
+            database_instance.session.commit()
+
+            with self.app.test_request_context():
+                response = get_user_id(1)
+
+            self.assertEqual(response[0].json["username"], "joao")
+
+    def test_update_user_id(self):
+        with self.app.app_context():
+            user = Users(id=1, username="joao", email="joao@email.com", password_hash="senha123")
+            print(user)
+            database_instance.session.add(user)
+            database_instance.session.commit()
+
+            with self.app.test_request_context(
+                    json={"username": "joaquim", "email": "joaquim@email.com", "password": "senha123"}):
+                response = update_user_id(1)
+                print(response)
+
+            updated_user = database_instance.session.query(Users).get(1)
+
+            self.assertEqual(updated_user.username, "joaquim")
+            self.assertEqual(updated_user.email, "joaquim@email.com")
+            self.assertEqual(response, {'message': 'usuário atualizado'})
+
+    def test_delete_user_id(self):
+        with self.app.app_context():
+            user = Users(id=1, username="joao", email="joao@email.com", password_hash="senha123")
+            print(user)
+            database_instance.session.add(user)
+            database_instance.session.commit()
+
+            with self.app.test_request_context():
+                response = delete_user_id(1)
+                print(response)
+
+            deleted_user = database_instance.session.query(Users).get(1)
+            print("deleted", deleted_user)
+
+            self.assertIsNone(deleted_user)
+            self.assertEqual(response, {'message': 'usuário deletado'})
 
 
 if __name__ == "__main__":

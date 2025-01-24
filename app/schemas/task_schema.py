@@ -20,10 +20,10 @@ class TaskSchema(Schema):
         required=True)
     done = fields.Boolean(
         attribute="is_done",
-        missing=False  # Define um valor padrão
+        missing=False
     )
 
-    # user_id = fields.Int(fields.Nested(UserSchema(exclude=("joined_on", "password")), dump_only=True))
+    user_id = fields.Int()
 
     @post_dump(pass_many=True)
     def wrap(self, data, many, **kwargs):

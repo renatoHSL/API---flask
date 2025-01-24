@@ -51,6 +51,7 @@ def create_task():
         description: Dados inválidos
     """
     json_input = request.get_json()
+    print("json", json_input)
     try:
         data = task_schema.load(json_input)
     except ValidationError as err:

@@ -148,6 +148,7 @@ def get_user_id(user_id):
         description: Usuário não encontrado
     """
     user = database_instance.session.get(Users, user_id)
+    print("teste", user)
     if not user:
         return {"error": "User not found"}, 404
     return jsonify(user.as_dict()), 200
