@@ -215,7 +215,7 @@ def update_task_by_id(task_id):
     statement = update(Tasks).where(Tasks.id == task_id).values(**updated_values)
     database_instance.session.execute(statement)
     database_instance.session.commit()
-    return {'message': 'tasks atualizada'}
+    return {'message': 'task atualizada'}
 
 
 @tasks_bp.route('/id/<int:task_id>', methods=['DELETE'])
@@ -256,7 +256,7 @@ def delete_task_by_id(task_id):
 
 
 @tasks_bp.route('/user_id/<int:user_id>', methods=['GET'])
-def get_user_tasks(user_id):
+def get_user_tasks_by_id(user_id):
     """
         Lista todas as tarefas de um usuário
         ---
