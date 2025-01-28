@@ -1,80 +1,153 @@
-# **Projeto: API RESTful para Gerenciamento de Tarefas**
+# **API RESTful para Gerenciamento de Tarefas**
 
-## **Objetivos do Projeto**
+![Python](https://img.shields.io/badge/python-v3.11-blue)
+![Flask](https://img.shields.io/badge/flask-v3.0.3-lightblue)
+![PostgreSQL](https://img.shields.io/badge/postgresql-v12-green)
+![Docker](https://img.shields.io/badge/docker-ready-important)
 
-- Construir uma API RESTful organizada, escalável e segura.
-- Implementar operações CRUD (Create, Read, Update, Delete) para usuários e tarefas.
-- Incorporar práticas de segurança e validação de dados.
+## **Descrição**
 
----
-
-## **Requisitos**
-
-### **1. Configuração Inicial e Arquitetura do Projeto**
-
-- [x] Estruturar o projeto com diretórios organizados:
-    - `/models`: Modelos de dados.
-    - `/routes`: Definição das rotas.
-    - `/services`: Lógica de negócios.
-    - `/config`: Configurações sensíveis.
-- [x] Configurar variáveis de ambiente (ex.: banco de dados, chaves secretas).
-- [x] Configurar conexão com banco de dados PostgreSQL.
-- [x] Criar tabelas de `users` e `tasks` com relacionamento usando SQLAlchemy.
-- [x] Implementar migrações com Alembic.
+Esta API foi desenvolvida para gerenciar tarefas e usuários de forma eficiente, seguindo boas práticas de arquitetura e
+segurança. A aplicação oferece funcionalidades completas de **CRUD** para **usuários** e **tarefas**, além de
+autenticação segura com **JWT**.
 
 ---
 
-### **2. Desenvolvimento CRUD**
+## **Principais Recursos**
 
-- [x] Criar rotas para operações básicas:
-    - **Usuários**
-        - `POST /users`: Criar um novo usuário.
-        - `GET /users`: Listar todos os usuários.
-        - `GET /users/{user_id}`: Obter informações de um usuário específico.
-        - `PUT /users/{user_id}`: Atualizar dados de um usuário.
-        - `DELETE /users/{user_id}`: Excluir um usuário.
-    - **Tarefas**
-        - `POST /tasks`: Criar uma nova tarefa.
-        - `GET /tasks`: Listar todas as tarefas.
-        - `GET /tasks/{task_id}`: Obter detalhes de uma tarefa específica.
-        - `PUT /tasks/{task_id}`: Atualizar uma tarefa.
-        - `DELETE /tasks/{task_id}`: Excluir uma tarefa.
-- [x] Implementar validação de dados usando Marshmallow.
-
----
-
-### **3. Login, Validação, Tratamento de Erros e Segurança**
-
-- [x] Adicionar tratamento de erros para casos comuns:
-    - **400**: Dados inválidos.
-    - **404**: Recurso não encontrado.
-    - **500**: Erro interno.
-- [X] Adicionar um fluxo de login para autenticação do usuário:
-    - Criar um endpoint `POST /login` para autenticar o usuário.
-    - Validar as credenciais (e-mail e senha) contra o banco de dados.
-- [X] Implementar autenticação básica com JWT:
-    - Retornar um token JWT se as credenciais forem válidas.
-    - Gerar tokens JWT para autenticação.
+- **CRUD Completo:**
+    - Usuários e tarefas com rotas específicas.
+- **Autenticação JWT:**
+    - Login seguro e geração de tokens.
+- **Banco de Dados Relacional:**
+    - Integração com PostgreSQL usando SQLAlchemy.
+- **Validação de Dados:**
+    - Marshmallow para validação e serialização de entrada/saída.
+- **Documentação Automática:**
+    - Gerada automaticamente com Flasgger.
+- **Testes Automatizados:**
+    - Pytest para validação de funcionalidades principais.
+- **Ambiente Contêinerizado:**
+    - Configuração pronta com Docker e Docker Compose.
 
 ---
 
-### **4. Documentação da API**
+## **Principais Endpoints**
 
-- [X] Adicionar documentação automática usando Flasgger.
-- [X] Garantir descrições claras e exemplos de entradas e saídas para cada endpoint.
+### **1. Usuários**
 
----
+- **Criar Usuário**:  
+  `POST /users`  
+  **Descrição**: Cria um novo usuário.  
+  **Exemplo de Payload**:
+  ```json
+  {
+    "name": "João Silva",
+    "email": "joao@email.com",
+    "password": "senha123"
+  }
+  ```
 
-### **5. Testes Automatizados**
+- **Listar Usuários**:
+  `GET /users`
+  **Descrição**: Retorna todos os usuários cadastrados.
 
-- [X] Configurar ambiente de testes com Pytest.
-- [X] Criar testes para validar cenários principais:
-- [X] Usar banco de dados de teste para evitar impacto no ambiente real.
+- **Buscar Usuário por ID**:
+  `GET /users/{user_id}`
+  **Descrição**: Descrição: Retorna as informações de um usuário específico.
 
----
+- **Atualizar Usuário**:
+  `PATCH /users/{user_id}`
+  **Descrição**: Atualiza os dados de um usuário.
 
-### **6. Deploy e Deployability**
+- **Excluir Usuário**:
+  `DELETE /users/{user_id}`
+  **Descrição**: Descrição: Remove um usuário do sistema.
 
-- [X] Criar um `Dockerfile` para containerizar a aplicação.
-- [X] Configurar `docker-compose.yml` para rodar API e banco de dados localmente.
-- [X] Usar `.dockerignore` para evitar envio de arquivos desnecessários.
+### **2. Tarefas**
+
+- **Criar Tarefa**:  
+  `POST /tasks`  
+  **Descrição**: Cria uma nova tarefa.  
+  **Exemplo de Payload**:
+  ```json
+  {
+    "title": "Finalizar relatório",
+    "description": "Concluir o relatório mensal até sexta-feira",
+    "user_id": 1
+  }
+  ```
+
+- **Listar Tarefas**:
+  `GET /id/tasks`
+  **Descrição**: Retorna todas as tarefas cadastradas.
+
+- **Buscar Tarefa por ID**:
+  `GET /tasks/id/{task_id}`
+  **Descrição**: Descrição: Retorna os detalhes de uma tarefa específica.
+
+- **Atualizar Tarefa**:
+  `PATCH /tasks/id/{task_id}`
+  **Descrição**: Atualiza as informações de uma tarefa.
+
+- **Excluir Tarefa**:
+  `DELETE /tasks/id/{task_id}`
+  **Descrição**: Descrição: Remove uma tarefa do sistema.
+
+- **Buscar Tarefa por ID do Usuário**:
+  `GET /tasks/user_id/{user_id}`
+  **Descrição**: Descrição: Retorna os detalhes de todas as tarefas de um usuário específico.
+
+- **Atualizar Tarefa de um Usuário**:
+  `PATCH /tasks/user_id/{user_id}`
+  **Descrição**: Atualiza as informações de uma tarefa de um usuário específico.
+
+- **Excluir Tarefa de um Usuário**:
+  `DELETE /tasks/user_id/{user_id}`
+  **Descrição**: Descrição: Remove uma tarefa do sistema de um usuário específico.
+
+### **3. Autenticação**
+
+## Login
+
+**Endpoint:**  
+`POST /login`
+
+**Descrição:**  
+Valida as credenciais do usuário e retorna um token JWT.
+
+**Exemplo de Payload:**
+
+  ```json
+  {
+  "email": "joao@email.com",
+  "password": "senha123"
+}
+  ```
+
+## **4. Testes Automatizados**
+
+Este projeto inclui testes automatizados utilizando **Pytest** para garantir a funcionalidade e a confiabilidade da API.
+Os testes cobrem cenários principais, como:
+
+- Operações CRUD para usuários e tarefas.
+- Validação de autenticação com JWT.
+- Tratamento de erros comuns (400, 404, 500).
+
+### **5. Funcionalidades Extras**
+
+## Validação de Dados
+
+Os dados de entrada são validados utilizando **Marshmallow**.
+
+## Tratamento de Erros
+
+Respostas claras para erros comuns, como:
+
+- **400:** Requisição inválida.
+- **404:** Recurso não encontrado.
+- **500:** Erro interno no servidor.
+
+## Documentação da API
+
+Disponível em `/apidocs` para facilitar a exploração dos endpoints.
