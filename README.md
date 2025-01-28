@@ -67,16 +67,14 @@
 
 ### **5. Testes Automatizados**
 
-- [ ] Configurar ambiente de testes com Pytest.
-- [ ] Criar testes para validar cenários principais:
-    - Sucesso (ex.: criação bem-sucedida de usuário ou tarefa).
-    - Erros (ex.: tentativa de deletar um recurso inexistente).
-- [ ] Usar banco de dados de teste para evitar impacto no ambiente real.
+- [X] Configurar ambiente de testes com Pytest.
+- [X] Criar testes para validar cenários principais:
+- [X] Usar banco de dados de teste para evitar impacto no ambiente real.
 
 ---
 
 ### **6. Deploy e Deployability**
 
-- [ ] Criar um `Dockerfile` para containerizar a aplicação.
-- [ ] Configurar `docker-compose.yml` para rodar API e banco de dados localmente.
-- [ ] Usar `.dockerignore` para evitar envio de arquivos desnecessários.
+- [X] Criar um `Dockerfile` para containerizar a aplicação.
+- [X] Configurar `docker-compose.yml` para rodar API e banco de dados localmente.
+- [X] Usar `.dockerignore` para evitar envio de arquivos desnecessários.

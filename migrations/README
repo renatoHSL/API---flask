@@ -1,1 +1,7 @@
-Generic single-database configuration.
+.env
+.git
+__pycache__/
+*.pyc
+tests/
+.venv/
+*.log
