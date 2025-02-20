@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/python-v3.11-blue)
 ![Flask](https://img.shields.io/badge/flask-v3.0.3-lightblue)
-![PostgreSQL](https://img.shields.io/badge/postgresql-v12-green)
+![SQLite](https://img.shields.io/badge/sqlite-green)
 ![Docker](https://img.shields.io/badge/docker-ready-important)
 
 ## **Descrição**
@@ -20,7 +20,7 @@ autenticação segura com **JWT**.
 - **Autenticação JWT:**
     - Login seguro e geração de tokens.
 - **Banco de Dados Relacional:**
-    - Integração com PostgreSQL usando SQLAlchemy.
+    - Integração com SQLite usando SQLAlchemy.
 - **Validação de Dados:**
     - Marshmallow para validação e serialização de entrada/saída.
 - **Documentação Automática:**
